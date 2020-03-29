@@ -1,0 +1,22 @@
+{
+  "name": "coulomb-panel",
+  "version": "0.0.1",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "type": "module",
+  "repository": "git@github.com:riboseinc/coulomb-panel.git",
+  "author": "Ribose Inc. <open.source@ribose.com>",
+  "license": "MIT",
+
+  "peerDependencies": {
+    "@blueprintjs/core": "^3.20.0",
+    "@blueprintjs/icons": "^3.12.0",
+    "css-loader": "^3.0.0",
+    "node-sass": "^4.12.0",
+    "sass-loader": "^8.0.2",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "typescript": "^3.7.2",
+    "webpack": "~4.41.5"
+  }
+}
