@@ -83,10 +83,12 @@ export const Panel: React.FC<PanelProps> = function ({
                   ? onCollapse
                   : onExpand}>
 
-              <Icon
-                className={styles.panelTriggerIcon}
-                icon={isCollapsible ? toggleIcon : 'blank'}
-              />
+              {isCollapsible
+                ? <Icon
+                    className={styles.panelTriggerIcon}
+                    icon={isCollapsible ? toggleIcon : 'blank'}
+                  />
+                : null}
 
               {title || TitleComponent
                 ? <>

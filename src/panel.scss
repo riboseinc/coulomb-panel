@@ -36,20 +36,6 @@ $transition1: .2s linear;
       flex: 1;
       margin-left: $pt-grid-size / 2;
     }
-
-    .panelTriggerIcon {
-      transition: opacity $transition1;
-      opacity: .5;
-    }
-
-    &:hover {
-      background-color: $light-gray2;
-      box-shadow: $pt-elevation-shadow-1;
-
-      .panelTriggerIcon {
-        opacity: 1;
-      }
-    }
   }
 
   > .panelContents {
@@ -64,6 +50,21 @@ $transition1: .2s linear;
   }
 
   &.panelCollapsible {
+    > .panelTitleBar {
+      .panelTriggerIcon {
+        transition: opacity $transition1;
+        opacity: .5;
+      }
+
+      &:hover {
+        background-color: $light-gray2;
+        box-shadow: $pt-elevation-shadow-1;
+
+        .panelTriggerIcon {
+          opacity: 1;
+        }
+      }
+    }
     &.panelCollapsed {
       > .panelContents {
         display: none;
