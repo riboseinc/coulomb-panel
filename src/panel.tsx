@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { IconName } from '@blueprintjs/icons';
 import styles from './panel.scss';
 import { Icon } from '@blueprintjs/core';
@@ -9,7 +9,9 @@ export const PanelContext =
   ({ state: {}, setState: () => {} });
 
 
-interface PanelProps {
+export interface PanelProps {
+  contentsRef?: (el: HTMLDivElement) => void,
+
   title?: string
   TitleComponent?: React.FC<{ isCollapsed?: boolean }>
   TitleComponentSecondary?: React.FC<{ isCollapsed?: boolean }>
@@ -26,6 +28,7 @@ interface PanelProps {
   iconExpanded?: IconName
 }
 export const Panel: React.FC<PanelProps> = function ({
+    contentsRef,
     className, collapsedClassName,
     titleBarClassName,
     contentsClassName,
@@ -46,6 +49,14 @@ export const Panel: React.FC<PanelProps> = function ({
   function onExpand() {
     setCollapsedState(false);
   }
+
+  const divRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (contentsRef && divRef.current) {
+      contentsRef(divRef.current);
+    }
+  });
 
   const toggleIcon: IconName = isCollapsed
     ? (iconCollapsed || 'caret-right')
@@ -96,7 +107,7 @@ export const Panel: React.FC<PanelProps> = function ({
 
         {isCollapsible && isCollapsed
           ? null
-          : <div className={`${styles.panelContents} ${contentsClassName}`}>
+          : <div ref={divRef} className={`${styles.panelContents} ${contentsClassName}`}>
               {children}
             </div>}
 
