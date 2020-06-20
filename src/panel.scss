@@ -72,16 +72,6 @@ $transition1: .2s linear;
     }
   }
 
-  :global .bp3-input {
-    background: transparent;
-    border: 0;
-    box-shadow: none;
-  }
-
-  :global textarea.bp3-input {
-    padding-top: 0;
-  }
-
   :global .bp3-form-group {
     padding: 0 .25rem;
     padding-bottom: .25rem;
