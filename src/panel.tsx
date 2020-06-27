@@ -16,6 +16,8 @@ export interface PanelProps {
   TitleComponent?: React.FC<{ isCollapsed?: boolean }>
   TitleComponentSecondary?: React.FC<{ isCollapsed?: boolean }>
 
+  children: React.ReactNode
+
   isCollapsible?: true
   isCollapsedByDefault?: true
 
@@ -27,7 +29,7 @@ export interface PanelProps {
   iconCollapsed?: IconName
   iconExpanded?: IconName
 }
-export const Panel: React.FC<PanelProps> = function ({
+export const Panel = React.forwardRef<HTMLDivElement, PanelProps>(function Panel({
     contentsRef,
     className, collapsedClassName,
     titleBarClassName,
@@ -36,7 +38,7 @@ export const Panel: React.FC<PanelProps> = function ({
     title, TitleComponent, TitleComponentSecondary,
     iconCollapsed, iconExpanded,
     isCollapsible, isCollapsedByDefault,
-    children }) {
+    children }, wrapperRef) {
 
   const [isCollapsed, setCollapsedState] =
     useState<boolean>(isCollapsedByDefault || false);
@@ -50,11 +52,11 @@ export const Panel: React.FC<PanelProps> = function ({
     setCollapsedState(false);
   }
 
-  const divRef = useRef<HTMLDivElement | null>(null);
+  const _contentsRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (contentsRef && divRef.current) {
-      contentsRef(divRef.current);
+    if (contentsRef && _contentsRef.current) {
+      contentsRef(_contentsRef.current);
     }
   });
 
@@ -63,13 +65,15 @@ export const Panel: React.FC<PanelProps> = function ({
     : (iconExpanded || 'caret-down');
 
   return (
-    <div className={`
-        ${className || ''}
-        ${styles.panel}
-        ${isCollapsible === true ? styles.panelCollapsible : ''}
-        ${isCollapsible === true && isCollapsed === true
-            ? `${styles.panelCollapsed} ${collapsedClassName}`
-            : ''}`}>
+    <div
+        ref={wrapperRef}
+        className={`
+          ${className || ''}
+          ${styles.panel}
+          ${isCollapsible === true ? styles.panelCollapsible : ''}
+          ${isCollapsible === true && isCollapsed === true
+              ? `${styles.panelCollapsed} ${collapsedClassName}`
+              : ''}`}>
 
       <PanelContext.Provider value={{
           state: panelState,
@@ -109,11 +113,13 @@ export const Panel: React.FC<PanelProps> = function ({
 
         {isCollapsible && isCollapsed
           ? null
-          : <div ref={divRef} className={`${styles.panelContents} ${contentsClassName}`}>
+          : <div
+                ref={_contentsRef}
+                className={`${styles.panelContents} ${contentsClassName}`}>
               {children}
             </div>}
 
       </PanelContext.Provider>
     </div>
   );
-};
+});
